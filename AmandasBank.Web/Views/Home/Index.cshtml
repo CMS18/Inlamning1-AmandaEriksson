@@ -12,7 +12,14 @@
         @foreach (var item in Model.Customers)
         {
             <li>
-                @item.Name, CustomerID: @item.CustomerId, Account: @item.AccountId
+                @item.Name, CustomerID: @item.CustomerId <br />
+                Accounts:
+                @foreach (var account in item.Accounts)
+                {
+            <p> ID @account.AccountId, Balance: @account.Balance</p> 
+
+
+                }
             </li>
         }
     </ul>
