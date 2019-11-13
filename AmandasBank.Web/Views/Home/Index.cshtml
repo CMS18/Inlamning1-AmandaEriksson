@@ -1,8 +1,19 @@
 ﻿@{
     ViewData["Title"] = "Amandas bank";
 }
+@model AmandasBank.Web.Models.BankRepository
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to Amandas bank</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1>Amandas Bank</h1>
+<a asp-controller="Bank" asp-action="Index">Transactions</a>
+<a asp-controller="Transfer" asp-action="Index">Transfer</a>
+
+<div>
+    <ul>
+        @foreach (var item in Model.Customers)
+        {
+            <li>
+                @item.Name, CustomerID: @item.CustomerId, Account: @item.AccountId
+            </li>
+        }
+    </ul>
 </div>
