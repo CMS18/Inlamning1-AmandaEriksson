@@ -5,15 +5,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AmandasBank.Web.Models;
+using AmandasBank.Web.Models.ViewModels;
 
 namespace AmandasBank.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly BankRepository _repo;
+
+        public HomeController(BankRepository repo)
+        {
+            _repo = repo;
+        }
+
         public IActionResult Index()
         {
-            var model = new BankRepository();
-            return View(model);
+            var viewmodel = new CustomerAccountsViewModel
+            {
+                Accounts = _repo.Accounts,
+                Customers = _repo.Customers
+            };
+
+            return View(viewmodel);
         }
 
         public IActionResult Privacy()
