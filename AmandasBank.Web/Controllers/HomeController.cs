@@ -11,19 +11,16 @@ namespace AmandasBank.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly BankRepository _repo;
+        //private readonly BankRepository _repo;
 
-        public HomeController(BankRepository repo)
-        {
-            _repo = repo;
-        }
+       
 
         public IActionResult Index()
         {
             var viewmodel = new CustomerAccountsViewModel
             {
-                Accounts = _repo.Accounts,
-                Customers = _repo.Customers
+                Accounts = BankRepository.Accounts,
+                Customers = BankRepository.Customers
             };
 
             return View(viewmodel);

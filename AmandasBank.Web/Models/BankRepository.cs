@@ -5,49 +5,48 @@ using System.Threading.Tasks;
 
 namespace AmandasBank.Web.Models
 {
-    public class BankRepository
+    public static class BankRepository
     {
-        public List<Account> Accounts { get; set; }
-        public List<Customer> Customers { get; set; }
+        public static List<Account> Accounts { get; set; }
+        public static List<Customer> Customers { get; set; }
 
-        public BankRepository()
+        public static void SetCustomers(List<Customer> customers)
         {
-            Accounts = new List<Account>
+            Customers = customers;
+            Accounts = new List<Account>();
+            foreach (var cust in customers)
             {
-                new Account(){ Balance = 100, AccountId = 1, CustomerId = 1 },
-                new Account(){ Balance = 200, AccountId = 2, CustomerId = 2 },
-                new Account(){ Balance = 300, AccountId = 3, CustomerId = 3 },
-                new Account(){ Balance = 400, AccountId = 4, CustomerId = 3}
-            };
-
-            Customers = new List<Customer>
-            {
-                new Customer(){ Name = "Jolt", CustomerId = 1, Accounts = Accounts.Where(a => a.CustomerId == 1).ToList() },
-                new Customer(){ Name = "Rut", CustomerId = 2,Accounts = Accounts.Where(a => a.CustomerId == 2).ToList() },
-                new Customer(){ Name = "Morran", CustomerId = 3, Accounts = Accounts.Where(a => a.CustomerId == 3).ToList()}
-            };
+                Accounts.AddRange(cust.Accounts);
+            }
+        }
+        public static List<Customer> GetCustomers()
+        {
+            return Customers;
         }
 
-        public void Deposit(decimal amount, int accountId)
+
+        public static void Deposit(decimal amount, int accountId)
         {
             if (amount < 0)
             {
                 throw new ArgumentOutOfRangeException();
             }
-            var account = Accounts.SingleOrDefault(x => x.AccountId == accountId);
+            var account = Accounts.SingleOrDefault(a => a.AccountId == accountId);
             account.Balance += amount;
 
 
         }
 
-        public void Withdraw(decimal amount, int accountId)
+        public static void Withdraw(decimal amount, int accountId)
         {
-            var account = Accounts.SingleOrDefault(x => x.AccountId == accountId);
+            var account = Accounts.SingleOrDefault(a => a.AccountId == accountId);
             if (amount > account.Balance || amount < 0)
             {
                 throw new ArgumentOutOfRangeException();
             }
             account.Balance -= amount;
         }
+
+
     }
 }

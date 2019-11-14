@@ -11,7 +11,6 @@ namespace AmandasBank.Web.Controllers
 {
     public class BankController : Controller
     {
-        BankRepository bank = new BankRepository();
 
         public IActionResult Index()
         {
@@ -25,8 +24,10 @@ namespace AmandasBank.Web.Controllers
             {
                 try
                 {
-                    bank.Deposit(amount, accountId);
-                    var account = bank.Accounts.SingleOrDefault(x => x.AccountId == accountId);
+                    BankRepository.Deposit(amount, accountId);
+                    var account = BankRepository.Accounts.SingleOrDefault(a => a.AccountId == accountId);
+
+
                     TempData["Message"] = $"New balance for account {account.AccountId}:  {account.Balance} $";
                 }
                 catch
@@ -49,8 +50,8 @@ namespace AmandasBank.Web.Controllers
             {
                 try
                 {
-                    bank.Withdraw(amount, accountId);
-                    var account = bank.Accounts.SingleOrDefault(x => x.AccountId == accountId);
+                    BankRepository.Withdraw(amount, accountId);
+                    var account = BankRepository.Accounts.SingleOrDefault(a => a.AccountId == accountId);
                     TempData["Message"] = $"New balance for account {account.AccountId}: {account.Balance} $";
                 }
                 catch
@@ -71,7 +72,8 @@ namespace AmandasBank.Web.Controllers
 
         public bool AccountExists(int accountId)
         {
-            return bank.Accounts.Any(x => x.AccountId == accountId);
+            return BankRepository.Accounts.Any(a => a.AccountId == accountId);
+
         }
     }
 }

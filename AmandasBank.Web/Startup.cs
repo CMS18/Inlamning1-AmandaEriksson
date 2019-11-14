@@ -34,13 +34,16 @@ namespace AmandasBank.Web
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddSingleton<BankRepository>();
+            //services.AddSingleton<BankRepository>();
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var customers = CreateCustomers();
+            BankRepository.SetCustomers(customers);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -63,5 +66,29 @@ namespace AmandasBank.Web
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
+
+        public List<Customer> CreateCustomers()
+        {
+            return new List<Customer>()
+                {
+                    new Customer(1, "Jolt", new List<Account>()
+                    {
+                        new Account(1,1,100)
+                    }),
+
+                    new Customer(2, "Rut", new List<Account>()
+                    {
+                        new Account(2,2,200)
+                    }),
+
+                    new Customer(3, "Morran", new List<Account>()
+                    {
+                        new Account(3,3,300),
+                        new Account(4,3,400)
+                    })
+            };
+
+        }
     }
+
 }
