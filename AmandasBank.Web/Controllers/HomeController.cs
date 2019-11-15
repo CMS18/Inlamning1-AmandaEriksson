@@ -11,9 +11,6 @@ namespace AmandasBank.Web.Controllers
 {
     public class HomeController : Controller
     {
-        //private readonly BankRepository _repo;
-
-       
 
         public IActionResult Index()
         {

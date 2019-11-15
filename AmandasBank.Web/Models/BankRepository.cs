@@ -25,27 +25,7 @@ namespace AmandasBank.Web.Models
         }
 
 
-        public static void Deposit(decimal amount, int accountId)
-        {
-            if (amount < 0)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-            var account = Accounts.SingleOrDefault(a => a.AccountId == accountId);
-            account.Balance += amount;
-
-
-        }
-
-        public static void Withdraw(decimal amount, int accountId)
-        {
-            var account = Accounts.SingleOrDefault(a => a.AccountId == accountId);
-            if (amount > account.Balance || amount < 0)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-            account.Balance -= amount;
-        }
+    
 
 
     }

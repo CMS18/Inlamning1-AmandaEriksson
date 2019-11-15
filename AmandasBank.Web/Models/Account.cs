@@ -16,5 +16,23 @@ namespace AmandasBank.Web.Models
         public decimal Balance { get; set; }
         public int AccountId { get; set; }
         public int CustomerId { get; set; }
+
+        public void Deposit(decimal amount)
+        {
+            if (amount < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            Balance += amount;
+        }
+
+        public void Withdraw(decimal amount)
+        {
+            if (amount > Balance || amount < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            Balance -= amount;
+        }
     }
 }

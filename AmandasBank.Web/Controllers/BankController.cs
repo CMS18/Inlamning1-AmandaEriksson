@@ -24,15 +24,14 @@ namespace AmandasBank.Web.Controllers
             {
                 try
                 {
-                    BankRepository.Deposit(amount, accountId);
                     var account = BankRepository.Accounts.SingleOrDefault(a => a.AccountId == accountId);
-
+                    account.Deposit(amount);
 
                     TempData["Message"] = $"New balance for account {account.AccountId}:  {account.Balance} $";
                 }
                 catch
                 {
-                    TempData["Message"] = "Invalid amount";
+                    TempData["Message"] = "Invalid or too big amount";
                 }
             }
             else
@@ -50,8 +49,8 @@ namespace AmandasBank.Web.Controllers
             {
                 try
                 {
-                    BankRepository.Withdraw(amount, accountId);
                     var account = BankRepository.Accounts.SingleOrDefault(a => a.AccountId == accountId);
+                    account.Withdraw(amount);
                     TempData["Message"] = $"New balance for account {account.AccountId}: {account.Balance} $";
                 }
                 catch
@@ -73,7 +72,6 @@ namespace AmandasBank.Web.Controllers
         public bool AccountExists(int accountId)
         {
             return BankRepository.Accounts.Any(a => a.AccountId == accountId);
-
         }
     }
 }
