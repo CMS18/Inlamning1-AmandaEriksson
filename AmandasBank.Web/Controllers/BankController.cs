@@ -20,16 +20,18 @@ namespace AmandasBank.Web.Controllers
         [HttpPost]
         public IActionResult Deposit(int accountId, decimal amount)
         {
-            if (AccountExists(accountId))
+
+            var account = BankRepository.Accounts.SingleOrDefault(a => a.AccountId == accountId);
+            if (account != null)
             {
                 try
                 {
-                    var account = BankRepository.Accounts.SingleOrDefault(a => a.AccountId == accountId);
                     account.Deposit(amount);
 
                     TempData["Message"] = $"New balance for account {account.AccountId}:  {account.Balance} $";
                 }
-                catch
+
+                catch (ArgumentOutOfRangeException)
                 {
                     TempData["Message"] = "Invalid or too big amount";
                 }
@@ -45,21 +47,22 @@ namespace AmandasBank.Web.Controllers
         [HttpPost]
         public IActionResult Withdraw(int accountId, decimal amount)
         {
-            if (AccountExists(accountId))
+            var account = BankRepository.Accounts.SingleOrDefault(a => a.AccountId == accountId);
+
+            if (account != null)
             {
                 try
                 {
-                    var account = BankRepository.Accounts.SingleOrDefault(a => a.AccountId == accountId);
                     account.Withdraw(amount);
                     TempData["Message"] = $"New balance for account {account.AccountId}: {account.Balance} $";
                 }
-                catch
+                catch(ArgumentOutOfRangeException)
                 {
-                    TempData["Message"] = "Invalid amount";
+                    TempData["Message"] = "Invalid or too big amount";
                 }
 
             }
-            else
+            else 
             {
                 TempData["Message"] = "Type a valid account number";
             }
@@ -67,11 +70,6 @@ namespace AmandasBank.Web.Controllers
 
 
             return RedirectToAction("Index");
-        }
-
-        public bool AccountExists(int accountId)
-        {
-            return BankRepository.Accounts.Any(a => a.AccountId == accountId);
         }
     }
 }

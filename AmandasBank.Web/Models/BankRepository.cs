@@ -19,10 +19,6 @@ namespace AmandasBank.Web.Models
                 Accounts.AddRange(cust.Accounts);
             }
         }
-        public static List<Customer> GetCustomers()
-        {
-            return Customers;
-        }
 
 
     

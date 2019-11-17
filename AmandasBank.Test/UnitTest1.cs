@@ -2,52 +2,47 @@ using AmandasBank.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
-using Xunit;
 
 namespace AmandasBank.Test
 {
+    [TestClass]
     public class UnitTest1
     {
         [TestMethod]
         public void TestDeposit()
         {
-            var bank = new BankRepository();
+            var account = new Account(1, 1, 200);
+            var amount = 100;
 
+            var expectedBalance = 300;
+            account.Deposit(amount);
 
-            var account = bank.Accounts.SingleOrDefault(x => x.AccountId == 1);
-            var balanceBelore = account.Balance;
+            var newBalance = account.Balance;
 
-            bank.Deposit(100, 1);
-
-            var result = account.Balance;
-
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual((balanceBelore + 100), result);
+            Assert.AreEqual(expectedBalance, newBalance);
         }
 
         [TestMethod]
         public void TestWithdraw()
         {
-            var bank = new BankRepository();
 
+            var account = new Account(1, 1, 200);
+            var amount = 100;
+            var expectedBalance = 100;
 
-            var account = bank.Accounts.SingleOrDefault(x => x.AccountId == 1);
-            var balanceBelore = account.Balance;
+            account.Withdraw(amount);
 
-            bank.Withdraw(100, 1);
+            var newBalance = account.Balance;
 
-            var result = account.Balance;
-
-            Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual((balanceBelore - 100), result);
+            Assert.AreEqual(expectedBalance, newBalance);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void TestAmountTooHigh()
         {
-            var bank = new BankRepository();
-            bank.Withdraw(100000, 1);
+            var account = new Account(1, 1, 200);
+            account.Withdraw(100000);
         }
-
-
     }
 }
