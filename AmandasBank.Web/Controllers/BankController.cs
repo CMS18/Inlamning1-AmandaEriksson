@@ -71,5 +71,6 @@ namespace AmandasBank.Web.Controllers
 
             return RedirectToAction("Index");
         }
+
     }
 }
