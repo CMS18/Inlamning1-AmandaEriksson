@@ -34,5 +34,20 @@ namespace AmandasBank.Web.Models
             }
             Balance -= amount;
         }
+
+        public void Transfer(Account sender, Account reciever, decimal amount)
+        {
+            //var newamount = Decimal.Parse(amount);
+            if(amount > 0 && sender.Balance >= amount)
+            {
+                sender.Withdraw(amount);
+                reciever.Deposit(amount);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(amount), "the amount can not be a negative number or extend the balance of the sender account");
+            }
+           
+        }
     }
 }
