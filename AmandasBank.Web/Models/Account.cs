@@ -45,7 +45,7 @@ namespace AmandasBank.Web.Models
             }
             else
             {
-                throw new ArgumentOutOfRangeException(nameof(amount), "the transferamount can not be a negative number or extend the balance");
+                throw new ArgumentOutOfRangeException(nameof(amount), "the amount can not be a negative number or extend the balance of the sender account");
             }
            
         }

@@ -23,7 +23,7 @@ namespace AmandasBank.Web.Controllers
             var sender = BankRepository.Accounts.SingleOrDefault(s => s.AccountId == senderId);
             var receiver = BankRepository.Accounts.SingleOrDefault(r => r.AccountId == receiverId);
 
-            if (sender != null || receiver != null || sender != receiver)
+            if (sender != null && receiver != null && sender != receiver)
             {
                 try
                 {
@@ -35,6 +35,10 @@ namespace AmandasBank.Web.Controllers
                 {
                     TempData["Message"] = ex.Message;
                 }
+            }
+            else
+            {
+                TempData["Message"] = "Type a valid account number";
             }
             return RedirectToAction("Index");
 
