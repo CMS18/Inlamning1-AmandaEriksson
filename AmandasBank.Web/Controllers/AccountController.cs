@@ -19,39 +19,29 @@ namespace AmandasBank.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Transfer(int receiverId, int senderId, string amount)
+        public IActionResult Transfer(int receiverId, int senderId, decimal amount)
         {
             var sender = BankRepository.Accounts.SingleOrDefault(s => s.AccountId == senderId);
             var receiver = BankRepository.Accounts.SingleOrDefault(r => r.AccountId == receiverId);
-            var culture = CultureInfo.CreateSpecificCulture("en-GB");
-            decimal number;
-            var style = NumberStyles.AllowDecimalPoint;  /*NumberStyles.Number | NumberStyles.AllowCurrencySymbol;*/
-            if (Decimal.TryParse(amount, style, culture, out number))
+
+            if (sender != null && receiver != null && sender != receiver)
             {
-
-
-                if (sender != null && receiver != null && sender != receiver)
+                try
                 {
-                    try
-                    {
-                        receiver.Transfer(sender, receiver, number);
-                        TempData["Message1"] = $"New balance for account {sender.AccountId}: {sender.Balance} $";
-                        TempData["Message2"] = $"New balance for account {receiver.AccountId}: {receiver.Balance} $";
-                    }
-                    catch (ArgumentOutOfRangeException ex)
-                    {
-                        TempData["Message"] = ex.Message;
-                    }
+                    receiver.Transfer(sender, receiver, amount);
+                    TempData["Message1"] = $"New balance for account {sender.AccountId}: {sender.Balance} $";
+                    TempData["Message2"] = $"New balance for account {receiver.AccountId}: {receiver.Balance} $";
                 }
-                else
+                catch (ArgumentOutOfRangeException ex)
                 {
-                    TempData["Message"] = "Type valid accounts number";
+                    TempData["Message"] = ex.Message;
                 }
             }
             else
             {
-                TempData["Message"] = "FormattingError amount. Use format: 0.00";
+                TempData["Message"] = "Type valid accounts number";
             }
+
             return RedirectToAction("Index");
 
         }
