@@ -11,6 +11,7 @@ namespace AmandasBank.Web.Controllers
 {
     public class BankController : Controller
     {
+      
 
         public IActionResult Index()
         {
