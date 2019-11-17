@@ -35,9 +35,9 @@ namespace AmandasBank.Web.Models
             Balance -= amount;
         }
 
-        public void Transfer(Account sender, Account reciever, int amount)
-        { 
-
+        public void Transfer(Account sender, Account reciever, decimal amount)
+        {
+            //var newamount = Decimal.Parse(amount);
             if(amount > 0 && sender.Balance >= amount)
             {
                 sender.Withdraw(amount);
